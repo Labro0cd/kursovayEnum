@@ -1,9 +1,8 @@
 package com.example.kursovayEnum;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/employee")
@@ -14,26 +13,25 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "all")
-    public String allEmployeeInList() {
-        return employeeService.allEmployee();
-    }
-
     @GetMapping(path = "/add")
-    public String addEmployeeInList(@RequestParam("firstname") String firstName,
+    public Employee addEmployeeInList(@RequestParam("firstname") String firstName,
                                     @RequestParam("lastname") String lastName) {
         return employeeService.addEmployee(firstName, lastName);
     }
 
     @GetMapping(path = "/remove")
-    public String removeEmployeeInList(@RequestParam("firstname") String firstName,
+    public Employee removeEmployeeInList(@RequestParam("firstname") String firstName,
                                        @RequestParam("lastname") String lastName) {
         return employeeService.removeEmployee(firstName, lastName);
     }
 
     @GetMapping(path = "/find")
-    public String getEmployeeInList(@RequestParam("firstname") String firstName,
+    public Employee getEmployeeInList(@RequestParam("firstname") String firstName,
                                     @RequestParam("lastname") String lastName) {
-        return employeeService.getEmployee(firstName, lastName);
+        return employeeService.getEmployee(firstName,lastName);
+    }
+    @GetMapping()
+    public Collection<Employee> allEmployeeInList() {
+        return employeeService.findAll();
     }
 }
