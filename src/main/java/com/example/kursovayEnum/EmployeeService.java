@@ -5,32 +5,29 @@ import Exception.EmployeeStorageIsFullException;
 import Exception.EmployeeAlreadyAddedException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
     static final Integer maxEmployee = 10;
-    private final List<Employee> employeeList = new ArrayList<>();
+    private final Map<String,Employee> employeeList = new HashMap<>();
 
     public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (employeeList.contains(employee)) {
+        if (employeeList.containsKey(firstName+lastName)) {
             throw new EmployeeAlreadyAddedException();
         }
         if (employeeList.size()>= maxEmployee) {
             throw new EmployeeStorageIsFullException();
         }
-        employeeList.add(employee);
+        employeeList.put(firstName+lastName,employee);
         return employee;
     }
 
     public Employee removeEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (employeeList.contains(employee)) {
-            employeeList.remove(employee);
+        if (employeeList.containsKey(firstName+lastName)) {
+            employeeList.remove(firstName+lastName);
             return employee;
         }
         throw new EmployeeNotFoundException();
@@ -38,13 +35,13 @@ public class EmployeeService {
 
     public Employee getEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (employeeList.contains(employee)) {
+        if (employeeList.containsKey(firstName+lastName)) {
             return employee;
         }
         throw new EmployeeNotFoundException();
     }
 
     public Collection<Employee> findAll() {
-        return Collections.unmodifiableList(employeeList);
+        return employeeList.values();
     }
 }
