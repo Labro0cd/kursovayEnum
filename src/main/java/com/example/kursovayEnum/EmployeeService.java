@@ -1,47 +1,23 @@
 package com.example.kursovayEnum;
 
-import Exception.EmployeeNotFoundException;
-import Exception.EmployeeStorageIsFullException;
-import Exception.EmployeeAlreadyAddedException;
-import org.springframework.stereotype.Service;
+import java.util.Collection;
+import java.util.List;
 
-import java.util.*;
+public interface EmployeeService {
+    Employee addEmployee(String firstName, String lastName, int salary, int department);
 
-@Service
-public class EmployeeService {
-    static final Integer maxEmployee = 10;
-    private final Map<String,Employee> employeeList = new HashMap<>();
+    Employee removeEmployee(String firstName, String lastName);
 
-    public Employee addEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (employeeList.containsKey(firstName+lastName)) {
-            throw new EmployeeAlreadyAddedException();
-        }
-        if (employeeList.size()>= maxEmployee) {
-            throw new EmployeeStorageIsFullException();
-        }
-        employeeList.put(firstName+lastName,employee);
-        return employee;
-    }
+    Employee getEmployee(String firstName, String lastName);
 
-    public Employee removeEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (employeeList.containsKey(firstName+lastName)) {
-            employeeList.remove(firstName+lastName);
-            return employee;
-        }
-        throw new EmployeeNotFoundException();
-    }
+    Collection<Employee> findAll();
 
-    public Employee getEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (employeeList.containsKey(firstName+lastName)) {
-            return employee;
-        }
-        throw new EmployeeNotFoundException();
-    }
+    Employee maxSalaryDepartment(Integer department);
 
-    public Collection<Employee> findAll() {
-        return employeeList.values();
-    }
+
+    Employee minSalaryDepartment(Integer department);
+
+    List<Employee> allEmployeeInDepartment(Integer department);
+
+    List<Employee> allEmployeeSeparationInDepartments();
 }

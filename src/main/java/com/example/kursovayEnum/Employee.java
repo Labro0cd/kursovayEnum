@@ -6,7 +6,15 @@ public class Employee {
 
     private final String firstName;
     private final String lastName;
+    private Integer salary;
+    private Integer department;
 
+    public Employee(String firstName, String lastName, Integer salary, Integer department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.salary = salary;
+        this.department = department;
+    }
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
@@ -19,6 +27,14 @@ public class Employee {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public Integer getDepartment() {
+        return department;
     }
 
     @Override
@@ -37,7 +53,7 @@ public class Employee {
     @Override
     public String toString() {
         return "firstName= " + firstName +
-                ", lastName= " + lastName ;
+                ", lastName= " + lastName;
     }
 }
 
